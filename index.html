@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sellos Notariales</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sellos Notariales</h1>
+    <form id="notary-form">
+        <label for="number">Número:</label>
+        <input type="number" id="number" name="number" required>
+        
+        <label for="date">Fecha:</label>
+        <input type="date" id="date" name="date" required>
+        
+        <label for="copy-to">Copia para:</label>
+        <select id="copy-to" name="copy-to" required>
+            <option value="interesado">Interesado</option>
+            <option value="catastro">Catastro</option>
+        </select>
+        
+        <label for="folios">Número de Folios:</label>
+        <input type="number" id="folios" name="folios" required>
+        
+        <label for="annexes">Anexos:</label>
+        <input type="text" id="annexes" name="annexes" required>
+        
+        <label for="notary">Seleccionar Notario:</label>
+        <select id="notary" name="notary" required>
+            <option value="notary1">Francisco Javier Hincapie Agudelo</option>
+            <option value="notary2">Sara Luz Arboleda Carmona</option>
+            <option value="notary3">Luz Helida Ocampo Villa</option>
+        </select>
+        
+        <button type="button" id="print-button">Imprimir</button>
+    </form>
+    
+    <footer>
+        <p>Realizado por Diego Alejandro Rendón Suaza, 
+            aspirante a Ing. de Sistemas <br>2024 Todos los derechos reservados &copy;</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
