@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sellos Notariales - Interesado/Catastro</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="bienvenido.html" class="nav-logo">Sellos Notariales</a>
+        <div class="nav-menu">
+          <a href="bienvenido.html" class="nav-link">Inicio</a>
+          <a href="index.html" class="nav-link active">Interesado/Catastro</a>
+          <a href="registro.html" class="nav-link">Registro/Acreedor</a>
+          <a href="registroCivil.html" class="nav-link">Registro civil</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="app-container">
+      <main class="main-content">
+        <div class="form-container">
+          <h2>
+            <i class="fas fa-stamp"></i> Generar Sello - Interesado/Catastro
+          </h2>
+          <p class="form-description">
+            Complete los datos para generar el sello notarial
+          </p>
+
+          <form id="notary-form" class="notary-form">
+            <div class="form-group">
+              <label for="number"><i class="fas fa-hashtag"></i> Número:</label>
+              <input
+                type="number"
+                id="number"
+                name="number"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="date"
+                ><i class="far fa-calendar-alt"></i> Fecha:</label
+              >
+              <input
+                type="date"
+                id="date"
+                name="date"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="copy-to"
+                ><i class="fas fa-copy"></i> Copia para:</label
+              >
+              <select id="copy-to" name="copy-to" class="form-control" required>
+                <option value="">Seleccione una opción</option>
+                <option value="interesado">Interesado</option>
+                <option value="catastro">Catastro</option>
+                <option value="otro">Otro (especificar)</option>
+              </select>
+            </div>
+
+            <div
+              class="form-group"
+              id="custom-copy-container"
+              style="display: none"
+            >
+              <label for="custom-copy"
+                ><i class="fas fa-user-edit"></i> Especificar interesado:</label
+              >
+              <input
+                type="text"
+                id="custom-copy"
+                name="custom-copy"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="folios"
+                ><i class="fas fa-file-alt"></i> Número de Folios:</label
+              >
+              <input
+                type="number"
+                id="folios"
+                name="folios"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="annexes"
+                ><i class="fas fa-paperclip"></i> Anexos:</label
+              >
+              <input
+                type="text"
+                id="annexes"
+                name="annexes"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="notary"
+                ><i class="fas fa-user-tie"></i> Seleccionar Notario:</label
+              >
+              <select id="notary" name="notary" class="form-control" required>
+                <option value="">Seleccione un notario</option>
+                <option value="notary1">
+                  Francisco Javier Hincapie Agudelo
+                </option>
+                <option value="notary2">Luz Helida Ocampo Villa</option>
+                <option value="notary3">Sara Luz Arboleda Carmona</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <div class="button-group">
+                <button type="button" id="print-button" class="primary-button">
+                  <i class="fas fa-print"></i> Generar e Imprimir
+                </button>
+                <a href="bienvenido.html" class="secondary-button">
+                  <i class="fas fa-arrow-left"></i> Volver al inicio
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <footer class="main-footer">
+        <p>
+          Realizado por Diego Alejandro Rendón Suaza, aspirante a Ing. de
+          Sistemas
+        </p>
+        <p>&copy; 2025 Todos los derechos reservados</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
