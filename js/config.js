@@ -42,3 +42,15 @@ function getNotaryTitle(notary) {
         ? 'NOTARIA ENCARGADA DEL MUNICIPIO DE EL RETIRO ANTIOQUIA.'
         : 'NOTARIO ÚNICO DEL MUNICIPIO DE EL RETIRO ANTIOQUIA.';
 }
+
+// Pre-llenar campo de fecha con la fecha de hoy
+document.addEventListener('DOMContentLoaded', function () {
+    var dateField = document.getElementById('date');
+    if (dateField) {
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var dd = String(today.getDate()).padStart(2, '0');
+        dateField.value = yyyy + '-' + mm + '-' + dd;
+    }
+});

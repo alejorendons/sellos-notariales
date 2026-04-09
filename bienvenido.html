@@ -5,8 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido - Selección de Sello</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="bienvenido.html" class="nav-logo">Sellos Notariales</a>
+            <div class="nav-menu">
+                <a href="bienvenido.html" class="nav-link active">Inicio</a>
+                <a href="index.html" class="nav-link">Interesado/Catastro</a>
+                <a href="registro.html" class="nav-link">Registro/Acreedor</a>
+                <a href="registroCivil.html" class="nav-link">Registro civil</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="app-container">
         <header class="main-header">
             <h1>Sistema de Sellos Notariales</h1>
@@ -16,24 +29,24 @@
         <main class="main-content">
             <div class="card-container">
                 <div class="option-card">
-                    <h2>Interesado / Catastro</h2>
+                    <h2><i class="fas fa-stamp"></i> Interesado / Catastro</h2>
                     <p>Generar sello para copias a favor del interesado o catastro</p>
-                    <a href="index.html" class="primary-button">Seleccionar</a>
-                </div>
-                
-                <div class="option-card">
-                    <h2>Registro/Acreedor</h2>
-                    <p>Generar sello para oficinas de registro o acreedor hipotecario</p>
-                    <a href="registro.html" class="primary-button">Seleccionar</a>
+                    <a href="index.html" class="primary-button"><i class="fas fa-arrow-right"></i> Seleccionar</a>
                 </div>
 
                 <div class="option-card">
-                    <h2>Registro Civil</h2>
+                    <h2><i class="fas fa-file-contract"></i> Registro/Acreedor</h2>
+                    <p>Generar sello para oficinas de registro o acreedor hipotecario</p>
+                    <a href="registro.html" class="primary-button"><i class="fas fa-arrow-right"></i> Seleccionar</a>
+                </div>
+
+                <div class="option-card">
+                    <h2><i class="fas fa-id-card"></i> Registro Civil</h2>
                     <p>Generar sello para registros civiles</p>
-                    <a href="registroCivil.html" class="primary-button">Seleccionar</a>
+                    <a href="registroCivil.html" class="primary-button"><i class="fas fa-arrow-right"></i> Seleccionar</a>
                 </div>
             </div>
-        </main> 
+        </main>
         <footer class="main-footer">
             <p>Realizado por Diego Alejandro Rendón Suaza, aspirante a Ing. de Sistemas</p>
             <p>&copy; 2025 Todos los derechos reservados</p>

@@ -2,6 +2,10 @@
 // y el botón de impresión. stampInnerHTML es el HTML interno del sello ya construido.
 function openPrintPreview(stampInnerHTML) {
     const printWindow = window.open('', '_blank');
+    if (!printWindow || printWindow.closed) {
+        alert('El navegador bloqueó la ventana emergente. Por favor, permita las ventanas emergentes para este sitio e intente de nuevo.');
+        return;
+    }
     printWindow.document.write(`
 <!DOCTYPE html>
 <html lang="es">
@@ -220,6 +224,56 @@ function openPrintPreview(stampInnerHTML) {
         });
 
         document.addEventListener('mouseup', function() { action = null; });
+
+        // Soporte táctil
+        function touchCoords(e) { return pageCoords(e.touches[0]); }
+
+        stamp.addEventListener('touchstart', function(e) {
+            if (e.target.dataset.dir) return;
+            action = 'drag';
+            var p = touchCoords(e);
+            start = { mx:p.x, my:p.y, sx:stampLeft(), sy:stampTop(), sw:stamp.offsetWidth, sh:stamp.offsetHeight };
+            e.preventDefault();
+        }, { passive: false });
+
+        document.querySelectorAll('.handle').forEach(function(h) {
+            h.addEventListener('touchstart', function(e) {
+                action = 'resize'; dir = e.target.dataset.dir;
+                var p = touchCoords(e);
+                start = { mx:p.x, my:p.y, sx:stampLeft(), sy:stampTop(), sw:stamp.offsetWidth, sh:stamp.offsetHeight };
+                e.preventDefault(); e.stopPropagation();
+            }, { passive: false });
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!action) return;
+            var p = touchCoords(e);
+            var dx = p.x - start.mx, dy = p.y - start.my;
+
+            if (action === 'drag') {
+                stamp.style.left = Math.max(0, Math.min(PAGE_W - start.sw, start.sx + dx)) + 'px';
+                stamp.style.top  = Math.max(0, Math.min(PAGE_H - start.sh, start.sy + dy)) + 'px';
+                e.preventDefault(); return;
+            }
+
+            var x=start.sx, y=start.sy, w=start.sw, h=start.sh;
+            if (dir.includes('e')) w = Math.max(80, w + dx);
+            if (dir.includes('w')) { var nw=Math.max(80,start.sw-dx); x=start.sx+start.sw-nw; w=nw; }
+            if (dir.includes('s')) h = Math.max(40, h + dy);
+            if (dir.includes('n')) { var nh=Math.max(40,start.sh-dy); y=start.sy+start.sh-nh; h=nh; }
+            if (x<0){w+=x;x=0;} if(y<0){h+=y;y=0;}
+            w=Math.min(w,PAGE_W-x); h=Math.min(h,PAGE_H-y);
+            stamp.style.left     = x + 'px';
+            stamp.style.top      = y + 'px';
+            stamp.style.width    = w + 'px';
+            stamp.style.height   = h + 'px';
+            stamp.style.overflow = 'hidden';
+            var scaleF = Math.min(w / BASE_W, h / BASE_H);
+            stamp.style.fontSize = (BASE_FONT * scaleF).toFixed(2) + 'px';
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', function() { action = null; });
     <\/script>
 </body>
 </html>
