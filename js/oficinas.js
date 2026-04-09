@@ -1,0 +1,271 @@
+/**
+ * Estructura de oficinas de registro de instrumentos públicos por departamento.
+ *
+ * Formato:
+ *   "NOMBRE DEL DEPARTAMENTO": ["TEXTO QUE APARECE EN EL SELLO", ...]
+ *
+ * El texto de cada oficina se inserta directamente en el sello así:
+ *   "OFICINA DE INSTRUMENTOS PUBLICOS DE {texto}"
+ */
+const OFICINAS = {
+    "ANTIOQUIA": [
+        "ABEJORRAL ANTIOQUIA",
+        "AMALFI ANTIOQUIA",
+        "ANDES ANTIOQUIA",
+        "APARTADO ANTIOQUIA",
+        "CAUCASIA ANTIOQUIA",
+        "CIUDAD BOLIVAR ANTIOQUIA",
+        "DABEIBA ANTIOQUIA",
+        "FREDONIA ANTIOQUIA",
+        "FRONTINO ANTIOQUIA",
+        "GIRARDOTA ANTIOQUIA",
+        "ITUANGO ANTIOQUIA",
+        "JERICO ANTIOQUIA",
+        "LA CEJA ANTIOQUIA",
+        "MARINILLA ANTIOQUIA",
+        "MEDELLIN ZONA NORTE",
+        "MEDELLIN ZONA SUR",
+        "PUERTO BERRIO ANTIOQUIA",
+        "RIONEGRO ANTIOQUIA",
+        "SANTA BARBARA ANTIOQUIA",
+        "SANTA ROSA DE OSOS ANTIOQUIA",
+        "SANTAFE DE ANTIOQUIA",
+        "SANTO DOMINGO ANTIOQUIA",
+        "SEGOVIA ANTIOQUIA",
+        "SONSON ANTIOQUIA",
+        "SOPETRAN ANTIOQUIA",
+        "TAMESIS ANTIOQUIA",
+        "TITIRIBI ANTIOQUIA",
+        "TURBO ANTIOQUIA",
+        "URRAO ANTIOQUIA",
+        "YARUMAL ANTIOQUIA",
+        "YOLOMBO ANTIOQUIA"
+    ],
+    "CALDAS": [
+        "AGUADAS CALDAS",
+        "ANSERMA CALDAS",
+        "LA DORADA CALDAS",
+        "MANIZALES CALDAS",
+        "MANZANARES CALDAS",
+        "NEIRA CALDAS",
+        "PACORA CALDAS",
+        "PENSILVANIA CALDAS",
+        "RIOSUCIO CALDAS",
+        "SALAMINA CALDAS"
+    ],
+    "QUINDIO": [
+        "ARMENIA QUINDIO",
+        "CALARCA QUINDIO",
+        "FILANDIA QUINDIO"
+    ],
+    "RISARALDA": [
+        "APIA RISARALDA",
+        "BELEN DE UMBRIA RISARALDA",
+        "DOSQUEBRADAS RISARALDA",
+        "PEREIRA RISARALDA",
+        "SANTA ROSA DE CABAL RISARALDA",
+        "SANTUARIO RISARALDA"
+    ],
+    "ATLANTICO": [
+        "BARRANQUILLA ATLANTICO",
+        "SABANALARGA ATLANTICO",
+        "SOLEDAD ATLANTICO"
+    ],
+    "BOLIVAR": [
+        "CARTAGENA BOLIVAR",
+        "EL CARMEN DE BOLIVAR",
+        "MAGANGUE BOLIVAR",
+        "MOMPOX BOLIVAR",
+        "SIMITI BOLIVAR"
+    ],
+    "CESAR": [
+        "AGUACHICA CESAR",
+        "CHIMICHAGUA CESAR",
+        "VALLEDUPAR CESAR"
+    ],
+    "CORDOBA": [
+        "CERETE CORDOBA",
+        "CHINU CORDOBA",
+        "LORICA CORDOBA",
+        "MONTELIBANO CORDOBA",
+        "MONTERIA CORDOBA",
+        "SAHAGUN CORDOBA"
+    ],
+    "LA GUAJIRA": [
+        "MAICAO LA GUAJIRA",
+        "RIOHACHA LA GUAJIRA",
+        "SAN JUAN DEL CESAR LA GUAJIRA"
+    ],
+    "MAGDALENA": [
+        "CIENAGA MAGDALENA",
+        "EL BANCO MAGDALENA",
+        "FUNDACION MAGDALENA",
+        "PLATO MAGDALENA",
+        "SANTA MARTA MAGDALENA",
+        "SITIONUEVO MAGDALENA"
+    ],
+    "SAN ANDRES ISLA": [
+        "SAN ANDRES ISLA Y PROVIDENCIA"
+    ],
+    "SUCRE": [
+        "COROZAL SUCRE",
+        "SAN MARCOS SUCRE",
+        "SINCE SUCRE",
+        "SINCELEJO SUCRE"
+    ],
+    "CUNDINAMARCA": [
+        "AGUA DE DIOS CUNDINAMARCA",
+        "BOGOTA ZONA CENTRO",
+        "BOGOTA ZONA NORTE",
+        "BOGOTA ZONA SUR",
+        "CAQUEZA CUNDINAMARCA",
+        "CHOCONTA CUNDINAMARCA",
+        "FACATATIVA CUNDINAMARCA",
+        "FUSAGASUGA CUNDINAMARCA",
+        "GACHETA CUNDINAMARCA",
+        "GIRARDOT CUNDINAMARCA",
+        "GUADUAS CUNDINAMARCA",
+        "LA MESA CUNDINAMARCA",
+        "LA PALMA CUNDINAMARCA",
+        "PACHO CUNDINAMARCA",
+        "SOACHA CUNDINAMARCA",
+        "UBATE CUNDINAMARCA",
+        "ZIPAQUIRA CUNDINAMARCA"
+    ],
+    "TOLIMA": [
+        "AMBALEMA TOLIMA",
+        "ARMERO - GUAYABAL TOLIMA",
+        "CAJAMARCA TOLIMA",
+        "CHAPARRAL TOLIMA",
+        "ESPINAL TOLIMA",
+        "FRESNO TOLIMA",
+        "GUAMO TOLIMA",
+        "HONDA TOLIMA",
+        "IBAGUE TOLIMA",
+        "LIBANO TOLIMA",
+        "MELGAR TOLIMA",
+        "PURIFICACION TOLIMA"
+    ],
+    "SANTANDER": [
+        "BARICHARA SANTANDER",
+        "BARRANCABERMEJA SANTANDER",
+        "BUCARAMANGA SANTANDER",
+        "CHARALA SANTANDER",
+        "CONCEPCION SANTANDER",
+        "CONTRATACION SANTANDER",
+        "MALAGA SANTANDER",
+        "PIEDECUESTA SANTANDER",
+        "PUENTE NACIONAL SANTANDER",
+        "SAN ANDRES SANTANDER",
+        "SAN GIL SANTANDER",
+        "SAN VICENTE DE CHUCURI SANTANDER",
+        "SOCORRO SANTANDER",
+        "VELEZ SANTANDER",
+        "ZAPATOCA SANTANDER"
+    ],
+    "NORTE DE SANTANDER": [
+        "CACHIRA NORTE DE SANTANDER",
+        "CHINACOTA NORTE DE SANTANDER",
+        "CONVENCION NORTE DE SANTANDER",
+        "MAGANGUE NORTE DE SANTANDER",
+        "OCAÑA NORTE DE SANTANDER",
+        "PAMPLONA NORTE DE SANTANDER",
+        "SALAZAR DE LAS PALMAS NORTE DE SANTANDER"
+    ],
+    "BOYACA": [
+        "CHIQUINQUIRA BOYACA",
+        "DUITAMA BOYACA",
+        "EL COCUY BOYACA",
+        "GARAGOA BOYACA",
+        "GUATEQUE BOYACA",
+        "MIRAFLORES BOYACA",
+        "MONIQUIRA BOYACA",
+        "PUERTO BOYACA BOYACA",
+        "RAMIRIQUI BOYACA",
+        "SANTA ROSA DE VITERBO BOYACA",
+        "SOATA BOYACA",
+        "SOCHA BOYACA",
+        "SOGAMOSO BOYACA",
+        "TUNJA BOYACA"
+    ],
+    "HUILA": [
+        "GARZON HUILA",
+        "LA PLATA HUILA",
+        "NEIVA HUILA",
+        "PITALITO HUILA"
+    ],
+    "AMAZONAS": [
+        "LETICIA AMAZONAS"
+    ],
+    "ARAUCA": [
+        "ARAUCA ARAUCA"
+    ],
+    "CAQUETA": [
+        "FLORENCIA CAQUETA",
+        "SAN VICENTE DEL CAGUAN CAQUETA"
+    ],
+    "CASANARE": [
+        "OROCUE CASANARE",
+        "PAZ DE ARIPORO CASANARE",
+        "YOPAL CASANARE"
+    ],
+    "GUAVIARE": [
+        "SAN JOSE DEL GUAVIARE GUAVIARE"
+    ],
+    "META": [
+        "ACACIAS META",
+        "PUERTO LOPEZ META",
+        "SAN MARTIN META",
+        "VILLAVICENCIO META"
+    ],
+    "PUTUMAYO": [
+        "MOCOA PUTUMAYO",
+        "PUERTO ASIS PUTUMAYO",
+        "SIBUNDOY PUTUMAYO"
+    ],
+    "VAUPES": [
+        "MITU VAUPES"
+    ],
+    "VICHADA": [
+        "PUERTO CARREÑO VICHADA"
+    ],
+    "CAUCA": [
+        "BOLIVAR CAUCA",
+        "CALOTO CAUCA",
+        "EL BORDO CAUCA",
+        "GUAPI CAUCA",
+        "PATIA EL BORDO CAUCA",
+        "POPAYAN CAUCA",
+        "PUERTO TEJADA CAUCA",
+        "SANTANDER DE QUILICHAO CAUCA",
+        "SILVIA CAUCA"
+    ],
+    "CHOCO": [
+        "ISTMINA CHOCO",
+        "NUQUI CHOCO",
+        "QUIBDO CHOCO"
+    ],
+    "NARIÑO": [
+        "BARBACOAS NARIÑO",
+        "IPIALES NARIÑO",
+        "LA CRUZ NARIÑO",
+        "LA UNION NARIÑO",
+        "PASTO NARIÑO",
+        "SAMANIEGO NARIÑO",
+        "TUMACO NARIÑO",
+        "TUQUERRES NARIÑO"
+    ],
+    "VALLE DEL CAUCA": [
+        "BUENAVENTURA VALLE DEL CAUCA",
+        "BUGA VALLE DEL CAUCA",
+        "CALI VALLE DEL CAUCA",
+        "CARTAGO VALLE DEL CAUCA",
+        "PALMIRA VALLE DEL CAUCA",
+        "ROLDANILLO VALLE DEL CAUCA",
+        "SEVILLA VALLE DEL CAUCA",
+        "TULUA VALLE DEL CAUCA"
+    ],
+    "GUAINIA": [
+        "PUERTO INIRIDA GUAINIA"
+    ]
+};

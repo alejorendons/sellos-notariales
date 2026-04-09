@@ -1,58 +1,102 @@
 // Lógica del formulario Registro / Acreedor (registro.html)
 
-const MONTH_NAMES = [
-    'enero','febrero','marzo','abril','mayo','junio',
-    'julio','agosto','septiembre','octubre','noviembre','diciembre'
-];
+// --- Poblar selector de departamentos desde OFICINAS ---
+(function poblarDepartamentos() {
+    const depSelect = document.getElementById('department');
+    Object.keys(OFICINAS).forEach(function (dep) {
+        const opt = document.createElement('option');
+        opt.value = dep;
+        opt.textContent = dep.charAt(0) + dep.slice(1).toLowerCase(); // Ej: "Antioquia"
+        depSelect.appendChild(opt);
+    });
+})();
 
-const NOTARY_NAMES = {
-    notary1: 'FRANCISCO JAVIER HINCAPIE AGUDELO',
-    notary2: 'LUZ HELIDA OCAMPO VILLA',
-    notary3: 'SARA LUZ ARBOLEDA CARMONA'
-};
+// Al cambiar departamento → poblar oficinas
+document.getElementById('department').addEventListener('change', function () {
+    const officeSelect    = document.getElementById('office');
+    const officeContainer = document.getElementById('office-container');
+    const dep             = this.value;
 
-// Mostrar / ocultar campos adicionales según destino
+    // Limpiar selector de oficinas
+    officeSelect.innerHTML = '<option value="">Seleccione una oficina</option>';
+
+    if (!dep) {
+        officeContainer.style.display = 'none';
+        return;
+    }
+
+    OFICINAS[dep].forEach(function (oficina) {
+        const opt = document.createElement('option');
+        opt.value = oficina;          // el valor ES el texto del sello
+        opt.textContent = oficina.charAt(0) + oficina.slice(1).toLowerCase();
+        officeSelect.appendChild(opt);
+    });
+
+    officeContainer.style.display = 'block';
+});
+
+// Mostrar / ocultar secciones según destino
 document.getElementById('copy-to').addEventListener('change', function () {
     document.getElementById('office-fields').style.display = this.value === 'oficina'  ? 'block' : 'none';
     document.getElementById('value-fields').style.display  = this.value === 'acreedor' ? 'block' : 'none';
+
+    // Resetear selección de oficina al cambiar destino
+    if (this.value !== 'oficina') {
+        document.getElementById('department').value = '';
+        document.getElementById('office').innerHTML = '<option value="">Seleccione una oficina</option>';
+        document.getElementById('office-container').style.display = 'none';
+    }
 });
 
 document.getElementById('print-button').addEventListener('click', function () {
-    const number    = document.getElementById('number').value;
+    const number    = document.getElementById('number').value.trim();
     const dateInput = document.getElementById('date').value;
     const folios    = document.getElementById('folios').value;
     const annexes   = document.getElementById('annexes').value || '0';
     const notary    = document.getElementById('notary').value;
-    let   copyTo    = document.getElementById('copy-to').value;
+    const copyToSel = document.getElementById('copy-to').value;
 
-    // Construir texto del destinatario
-    if (copyTo === 'oficina') {
-        const office = document.getElementById('office').value;
-        let   label  = office.replace(/_/g, ' ').toUpperCase();
-        copyTo = 'OFICINA DE INSTRUMENTOS PUBLICOS DE ' + label + ' ANTIOQUIA';
-        // Medellín no lleva "ANTIOQUIA" al final
-        if (copyTo.includes('MEDELLIN ZONA SUR') || copyTo.includes('MEDELLIN ZONA NORTE')) {
-            copyTo = copyTo.replace(' ANTIOQUIA', '');
+    // Validación
+    if (!number || !dateInput || !folios || !notary || !copyToSel) {
+        alert('Por favor, complete todos los campos obligatorios.');
+        return;
+    }
+    if (Number(folios) < 1) {
+        alert('El número de folios debe ser al menos 1.');
+        return;
+    }
+    if (copyToSel === 'oficina') {
+        if (!document.getElementById('department').value) {
+            alert('Por favor, seleccione el departamento.');
+            return;
         }
-    } else if (copyTo === 'acreedor') {
-        const valor = document.getElementById('value').value;
-        copyTo = 'ACREEDOR HIPOTECARIO (' + valor.toUpperCase() + ')';
+        if (!document.getElementById('office').value) {
+            alert('Por favor, seleccione la oficina.');
+            return;
+        }
+    }
+    if (copyToSel === 'acreedor' && !document.getElementById('value').value.trim()) {
+        alert('Por favor, ingrese el nombre del acreedor hipotecario.');
+        return;
     }
 
-    const date          = new Date(dateInput + 'T00:00:00');
-    const formattedDate = date.getUTCDate() + ' DE ' + MONTH_NAMES[date.getUTCMonth()].toUpperCase() + ' DE ' + date.getUTCFullYear();
+    // Construir texto del destinatario
+    let copyTo;
+    if (copyToSel === 'oficina') {
+        // El valor del selector ya ES el texto exacto del sello
+        copyTo = 'OFICINA DE INSTRUMENTOS PUBLICOS DE ' + document.getElementById('office').value;
+    } else {
+        copyTo = 'ACREEDOR HIPOTECARIO (' + document.getElementById('value').value.trim().toUpperCase() + ')';
+    }
 
-    const today         = new Date();
-    const formattedToday = today.getUTCDate() + ' DE ' + MONTH_NAMES[today.getUTCMonth()].toUpperCase() + ' DE ' + today.getUTCFullYear();
+    const formattedDate  = formatDate(dateInput);
+    const formattedToday = formatToday();
 
     const foliosInWords  = numberToWords(Number(folios));
     const annexesInWords = annexes !== '0' ? ' Y ' + numberToWords(Number(annexes)) + ' (' + annexes + ') ANEXOS' : '';
 
-    const isEncargada = notary === 'notary2' || notary === 'notary3';
-    const notaryRole  = isEncargada ? 'LA NOTARIA ENCARGADA' : 'EL NOTARIO UNICO';
-    const notaryTitle = isEncargada
-        ? 'NOTARIA ENCARGADA DEL MUNICIPIO DE EL RETIRO ANTIOQUIA.'
-        : 'NOTARIO ÚNICO DEL MUNICIPIO DE EL RETIRO ANTIOQUIA.';
+    const notaryRole  = getNotaryRole(notary);
+    const notaryTitle = getNotaryTitle(notary);
 
     const headerContent = `
         NOTARIA ÚNICA DEL MUNICIPIO<br>
@@ -61,7 +105,7 @@ document.getElementById('print-button').addEventListener('click', function () {
     `;
 
     let bodyContent;
-    if (copyTo.includes('OFICINA DE INSTRUMENTOS PUBLICOS')) {
+    if (copyToSel === 'oficina') {
         bodyContent = `
             COPIA A FAVOR DE: ${copyTo}.<br><br>
             CONSTA DE ${foliosInWords} (${folios}) FOLIOS${annexesInWords}<br>
@@ -72,7 +116,6 @@ document.getElementById('print-button').addEventListener('click', function () {
         bodyContent = `
             ES FIEL Y PRIMERA (01) COPIA EN REPRODUCCION FOTOSTATICA DEL ORIGINAL <br><br>
             QUE PRESTA MERITO EJECUTIVO PARA EXIGIR EL CUMPLIMIENTO DE LAS OBLIGACIONES <br><br>
-            EL CUAL SE EXPIDE HOY ${formattedToday}. <br><br>
             CONSTA DE ${foliosInWords} (${folios}) FOLIOS ${annexesInWords} <br><br>
             CON DESTINO A: <br> ${copyTo}.<br><br>
             <img src="img/logo.png" alt="Logo" style="width:100px;height:auto;"><br><br>
@@ -80,7 +123,7 @@ document.getElementById('print-button').addEventListener('click', function () {
     }
 
     const signatureContent = `
-        ${NOTARY_NAMES[notary]}<br>
+        ${CONFIG.NOTARY_NAMES[notary]}<br>
         ${notaryTitle}<br><br>
         SE EXPIDIÓ HOY: ${formattedToday}
     `;
